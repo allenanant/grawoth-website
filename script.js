@@ -2,54 +2,75 @@
 const cursorDot = document.querySelector('.cursor-dot');
 const cursorCircle = document.querySelector('.cursor-circle');
 
-// Update cursor position on mouse move
-document.addEventListener('mousemove', e => {
-    cursorDot.style.left = e.clientX + 'px';
-    cursorDot.style.top = e.clientY + 'px';
-    
-    // Add slight delay to circle for smooth effect
-    setTimeout(() => {
-        cursorCircle.style.left = e.clientX + 'px';
-        cursorCircle.style.top = e.clientY + 'px';
-    }, 50);
-});
+// Check if it's a touch device
+const isTouchDevice = () => {
+    return ('ontouchstart' in window) || 
+           (navigator.maxTouchPoints > 0) || 
+           (navigator.msMaxTouchPoints > 0);
+};
 
-// Add hover effect to clickable elements
-const interactiveElements = document.querySelectorAll('a, button, .service-card, .benefit-card, .faq-question, .hero-buttons a');
-
-interactiveElements.forEach(el => {
-    el.addEventListener('mouseenter', () => {
-        cursorCircle.classList.add('cursor-hover');
+// Only enable custom cursor on non-touch devices
+if (!isTouchDevice()) {
+    // Update cursor position on mouse move
+    document.addEventListener('mousemove', e => {
+        cursorDot.style.left = e.clientX + 'px';
+        cursorDot.style.top = e.clientY + 'px';
+        
+        // Add slight delay to circle for smooth effect
+        setTimeout(() => {
+            cursorCircle.style.left = e.clientX + 'px';
+            cursorCircle.style.top = e.clientY + 'px';
+        }, 50);
     });
-    
-    el.addEventListener('mouseleave', () => {
-        cursorCircle.classList.remove('cursor-hover');
+
+    // Add hover effect to clickable elements
+    const interactiveElements = document.querySelectorAll('a, button, .service-card, .benefit-card, .faq-question, .hero-buttons a');
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorCircle.classList.add('cursor-hover');
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            cursorCircle.classList.remove('cursor-hover');
+        });
     });
-});
 
-// Hide cursor when it leaves the window
-document.addEventListener('mouseleave', () => {
-    cursorDot.style.display = 'none';
-    cursorCircle.style.display = 'none';
-});
+    // Hide cursor when it leaves the window
+    document.addEventListener('mouseleave', () => {
+        cursorDot.style.display = 'none';
+        cursorCircle.style.display = 'none';
+    });
 
-document.addEventListener('mouseenter', () => {
-    cursorDot.style.display = 'block';
-    cursorCircle.style.display = 'block';
-});
+    document.addEventListener('mouseenter', () => {
+        cursorDot.style.display = 'block';
+        cursorCircle.style.display = 'block';
+    });
+}
 
 // Mobile Menu Toggle
-document.querySelector('.mobile-menu').addEventListener('click', function() {
-    document.querySelector('.nav-links').classList.toggle('show');
+const mobileMenuButton = document.querySelector('.mobile-menu');
+const navLinks = document.querySelector('.nav-links');
+
+mobileMenuButton.addEventListener('click', function() {
+    navLinks.classList.toggle('show');
     document.body.classList.toggle('menu-open');
 });
 
 // Close mobile menu when a link is clicked
 document.querySelectorAll('.nav-links .nav-link').forEach(link => {
     link.addEventListener('click', function() {
-        document.querySelector('.nav-links').classList.remove('show');
+        navLinks.classList.remove('show');
         document.body.classList.remove('menu-open');
     });
+});
+
+// Handle resize to fix navigation issues
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
+        navLinks.classList.remove('show');
+        document.body.classList.remove('menu-open');
+    }
 });
 
 // FAQ Accordion
@@ -81,8 +102,12 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             // Scroll to specific section
             const target = document.querySelector(href);
             if (target) {
+                // Adjust offset for fixed header
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                
                 window.scrollTo({
-                    top: target.offsetTop - 100,
+                    top: targetPosition - headerHeight - 20, // 20px extra padding
                     behavior: 'smooth'
                 });
             }
