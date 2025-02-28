@@ -73,6 +73,17 @@ a, button, .service-card, .benefit-card, .faq-question, .hero-buttons a {
     cursor: none;
 }
 
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .cursor-dot, .cursor-circle {
+        display: none !important;
+    }
+    
+    body, a, button, .service-card, .benefit-card, .faq-question, .hero-buttons a {
+        cursor: auto !important;
+    }
+}
+
 /* Hide custom cursor on small devices */
 @media (max-width: 768px) {
     .cursor-dot, .cursor-circle {
@@ -231,6 +242,7 @@ nav {
     display: inline-block;
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 .cta-button:hover {
@@ -331,6 +343,7 @@ nav {
     display: inline-block;
     font-family: 'Orbitron', sans-serif;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 .secondary-button:hover {
@@ -468,6 +481,7 @@ nav {
     border: 1px solid rgba(255,255,255,0.1);
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .service-card:hover {
@@ -529,6 +543,7 @@ nav {
     transition: gap 0.3s ease;
     font-family: 'Space Mono', monospace;
     letter-spacing: 1px;
+    margin-top: auto;
 }
 
 .learn-more:hover {
@@ -566,6 +581,7 @@ nav {
     padding: 40px 30px;
     transition: all 0.3s ease;
     border: 1px solid rgba(255,255,255,0.1);
+    height: 100%;
 }
 
 .benefit-card:hover {
@@ -630,18 +646,6 @@ nav {
     margin-left: 20px;
 }
 
-@media (max-width: 768px) {
-    .faq h2::before, 
-    .faq h2::after {
-        width: 30px;
-    }
-    
-    .faq h2 {
-        padding: 0 15px;
-        font-size: 36px !important;
-    }
-}
-
 .faq-list {
     max-width: 800px;
     margin: 0 auto;
@@ -664,6 +668,7 @@ nav {
     font-size: 20px;
     font-weight: 600;
     font-family: 'Orbitron', sans-serif;
+    text-align: left;
 }
 
 .faq-answer {
@@ -672,6 +677,7 @@ nav {
     line-height: 1.6;
     color: rgba(255,255,255,0.7);
     display: none;
+    text-align: left;
 }
 
 .faq-item.active .faq-answer {
@@ -682,6 +688,8 @@ nav {
     width: 20px;
     height: 20px;
     position: relative;
+    flex-shrink: 0;
+    margin-left: 15px;
 }
 
 .faq-toggle::before,
@@ -762,6 +770,7 @@ footer {
 .footer-links {
     display: flex;
     gap: 30px;
+    flex-wrap: wrap;
 }
 
 .footer-link {
@@ -774,7 +783,17 @@ footer {
     color: var(--accent);
 }
 
-/* Mobile Menu */
+/* Mobile Styles */
+@media (max-width: 992px) {
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .service-card h3 {
+        font-size: 20px;
+    }
+}
+
 @media (max-width: 768px) {
     .nav-links {
         position: fixed;
@@ -804,6 +823,11 @@ footer {
         display: block;
     }
     
+    .hero {
+        padding-top: 120px;
+        padding-bottom: 60px;
+    }
+    
     .hero h1 {
         font-size: 36px;
     }
@@ -815,10 +839,27 @@ footer {
     .hero-buttons {
         flex-direction: column;
         gap: 15px;
+        width: 100%;
+    }
+    
+    .hero-buttons a {
+        width: 100%;
+    }
+    
+    .section-header {
+        margin-bottom: 40px;
     }
     
     .section-header h2 {
         font-size: 32px;
+    }
+    
+    .section-header p {
+        font-size: 16px;
+    }
+    
+    .services, .benefits, .faq, .about {
+        padding: 60px 0;
     }
     
     .services-grid {
@@ -827,5 +868,83 @@ footer {
     
     .benefits-grid {
         grid-template-columns: 1fr;
+        margin-top: 40px;
+    }
+    
+    .benefit-card {
+        padding: 30px 20px;
+    }
+    
+    .faq h2 {
+        font-size: 32px !important;
+    }
+    
+    .faq-question h3 {
+        font-size: 16px;
+    }
+    
+    .about h2 {
+        font-size: 32px;
+    }
+    
+    .about p {
+        font-size: 16px;
+    }
+    
+    .footer-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .cta h2 {
+        font-size: 32px !important;
+    }
+    
+    .cta p {
+        font-size: 16px !important;
+    }
+    
+    .cta .cta-button {
+        padding: 12px 24px !important;
+        font-size: 16px !important;
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-tagline {
+        font-size: 12px;
+    }
+    
+    .hero h1 {
+        font-size: 28px;
+    }
+    
+    .client-category {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+    
+    .service-card, .benefit-card {
+        padding: 25px 20px;
+    }
+    
+    .service-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .service-icon::after {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .service-card h3, .benefit-card h3 {
+        font-size: 18px;
+    }
+    
+    .service-card p, .benefit-card p {
+        font-size: 14px;
     }
 }
