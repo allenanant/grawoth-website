@@ -24,8 +24,7 @@ if (!isTouchDevice()) {
     });
 
     // Add hover effect to clickable elements
-    const interactiveElements = document.querySelectorAll('a, button, .service-card, .benefit-card, .faq-question, .hero-buttons a');
-
+    const interactiveElements = document.querySelectorAll('a, button, .service-card, .benefit-card, .faq-question, .hero-buttons a, .blog-card');
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursorCircle.classList.add('cursor-hover');
